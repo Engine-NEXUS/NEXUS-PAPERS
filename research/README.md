@@ -13,8 +13,53 @@ docs/research/
 ├── nlu-intent/              # Intent classification, slot extraction, catalogs, and STT bias
 ├── live-mode/               # Ultra-low latency voice dictation and live audio streaming
 ├── mcp-connection/          # Model Context Protocol bridges (WhatsApp, Swiggy, Amazon, etc.)
-└── system-architecture/     # Core system patterns, diagnostic reviews, and UI animations
+├── system-architecture/     # Core system patterns, diagnostic reviews, and UI animations
+├── screen-agent-stack/      # Screen agent vision models, TTS/STT/OCR/memory latency audit
+└── 2026-10-competitive-audit/  # 10-angle audit vs. the live state of the art (Oct 2026)
 ```
+
+---
+
+## 🔥 2026-10 Competitive & Technology Audit
+
+**Start here:** [`2026-10-competitive-audit/00-executive-summary.md`](2026-10-competitive-audit/00-executive-summary.md)
+
+Ten parallel research agents scoped to one angle each, covering what is
+**shipping now** vs **announced but unusable** as of 2026-10-02. Two of the
+project's own earlier recommendations were **retracted** on the evidence.
+
+**Three findings that change the plan:**
+
+1. **The orb architecture cannot work on Linux Wayland.** `always_on_top` is an
+   empty function in GTK3; `set_position` is impossible by design; click-through
+   is broken on Mutter; and `set_ignore_cursor_events` panics in current stable
+   `tao`. The fullscreen transparent stage must be replaced.
+2. **The 2026 design consensus is the opposite of a full-size animated orb.**
+   Google, Microsoft and Apple converged on small/monochrome/collapsed. Microsoft
+   removed its assistant's colour *deliberately*.
+3. **Endpointing is a bigger bug than the visuals.** SRI: a fixed 500 ms gate
+   causes 100% premature cut-off; **100 ms with pre-pausal acoustics drops it to
+   20.3%** — and that is our documented "speech onset decapitation" bug.
+
+**Per-area verdicts:**
+
+| Doc | Contents |
+|---|---|
+| **[00. Executive Summary](2026-10-competitive-audit/00-executive-summary.md)** | Synthesis, per-area verdicts, priority order, scope changes |
+| **[01. Platform Constraints](2026-10-competitive-audit/01-platform-constraints.md)** | Tauri v2 / Linux Wayland capability matrix, the unfixed `tao` panic, window-architecture alternatives |
+| **[02. Ambient UI & Design Language](2026-10-competitive-audit/02-ambient-ui-design-language.md)** | Google/Microsoft/Apple presence patterns, collapse rules, M3 Expressive motion specs, documented redesign failures |
+| **[03. Voice UX & Conversation](2026-10-competitive-audit/03-voice-ux-conversation.md)** | Turn-taking (+208 ms floor), latency ladder, state signalling, error recovery, confirmation, why not to build visemes |
+| **[04. Voice Stack SOTA](2026-10-competitive-audit/04-voice-stack-sota.md)** | Wake word / VAD / STT / TTS state of the art with concrete upgrade paths and measured numbers |
+| **[05. NLU Intent & Decision Models](2026-10-competitive-audit/05-nlu-intent-decision-models.md)** | Jev + Laya verdict with independent benchmarks; the fine-tune path; local model landscape |
+| **[06. Computer-Use & Linux Gap](2026-10-competitive-audit/06-computer-use-linux-gap.md)** | The Linux moat (verified from primary vendor docs), OCR/GUI-grounding SOTA, AT-SPI, pointer patterns |
+| **[07. Security & OAuth](2026-10-competitive-audit/07-security-oauth-authorization.md)** | The unauthenticated token endpoints, MCP spec violations, secure Linux storage, prompt injection |
+| **[08. Distribution & Packaging](2026-10-competitive-audit/08-distribution-linux-packaging.md)** | Flathub's Generative AI policy, Tauri bundle reality, the microphone-portal gap |
+| **[09. Dev-Tool UI & Design Systems](2026-10-competitive-audit/09-devtool-ui-design-systems.md)** | Token architecture, dark-mode convention, and the four AI-slop tells our CSS already ships |
+
+**Standing scope decision (2026-10-02):** multilingual (Hindi/Telugu) is **out of
+scope** for this cycle. This removes the single largest unmeasured risk in the
+stack — no verified Telugu benchmark exists for any sub-6B model — and unlocks the
+English-only intent-classification literature and the SiFT footprint optimisation.
 
 ---
 
