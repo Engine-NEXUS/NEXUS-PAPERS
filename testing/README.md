@@ -20,6 +20,7 @@ This directory contains repeatable testing procedures and release gates. Histori
 | Wake word Phase D | [Phase D Speaker Verification](./wake-word-phase-d-speaker-verification-2026-09-14.md) | 512-dim ResNet speaker embeddings and cosine verification gates |
 | Wake word Phase E | [Phase E Real Sample Recording](./wake-word-phase-e-real-sample-recording-2026-09-14.md) | Real microphone recording protocol, acoustic variation, and noise floors |
 | Wake word Decision | [Training Decision 2026-09-15](./wake-word-training-decision-2026-09-15.md) | Final go/no-go release gates and deployment sign-off |
+| Linux port | [Verification & Preview Harness](./linux-port-verification-and-preview-harness.md) | Suites, live desktop checks, microphone diagnosis, and the `stage.html?eyeball` harness |
 | Installer | [Installer Testing Checklist](../installer-testing-checklist.md) | Installer-specific validation |
 | Full system | [Full System Test — 2026-09-08](../full-system-test-2026-09-08.md) | Historical end-to-end system test |
 | Historical results | [Test Results — 2026-09-08](../test-results-2026-09-08.md) | Historical test outcome snapshot |

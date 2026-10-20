@@ -59,7 +59,7 @@ If you are exploring the codebase or contributing a new feature, follow this rea
 - **[11. Master System Flows](architecture/11-complete-system-flows.md)** — 16 end-to-end visual sequence diagrams.
 
 ### 2. ⚡ [Features](features/README.md)
-*Detailed documentation of all implemented features (Features 01–57).*
+*Detailed documentation of all implemented features (Features 01–58).*
 - **[01–15. Core Desktop Assistant](features/README.md)** — Wake word, Tier-3 commands, meeting mode, boot greeting, NSIS installer, setup wizard.
 - **[45–50. Subcommands & Settings](features/README.md)** — GitHub subcommands, loading indicators, and settings sidebar.
 - **[51–53. NLU Training & Stability](features/README.md)** — `nexus collect`, `nexus train`, LLM cascades, and mic stability.
@@ -67,15 +67,17 @@ If you are exploring the codebase or contributing a new feature, follow this rea
 - **[55. NLU Data Foundation & STT Conditioning](features/55-nlu-data-perfection-voice-scaling-and-mcp-bridge-research.md)** — Whisper prompt biasing and speaker-invariant OTA model updates.
 - **[56. Targeted Intent Training & MCP Promotion](features/56-targeted-intent-training-and-mcp-data-promotion.md)** — Interactive category collection (`nexus collect -c -i`) and zero-quarantine promotion.
 - **[57. Apex Wake Word Evolution & Hardware Adaptation](features/57-apex-wake-word-evolution-and-hardware-adaptation.md)** — Mic spectral prober, chassis resonance auto-tuning, and dynamic AGC.
+- **[58. NEXUS on Linux](features/58-linux-port-windows-base-and-linux-layer.md)** — Windows codebase + Linux platform layer: layer-shell overlay below the panels, system-drawer sidebar, PipeWire mic fix, the aura, performance.
 
 ### 3. 🔬 [Research](research/README.md)
-*Comprehensive research knowledge base organized into 6 thematic subdirectories.*
+*Comprehensive research knowledge base organized into 7 thematic subdirectories.*
 - **[micspecification/](research/micspecification/apex-wake-word-and-laptop-mic-hardware-adaptation.md)** — Laptop microphone hardware prober, chassis resonance peaks, dynamic AGC, and impulsive noise filters.
 - **[wakeword/](research/wakeword/wake-word-training-production-plan-2026-09-14.md)** — openWakeWord acoustic training, negative augmentation, and loss weighting.
 - **[nlu-intent/](research/nlu-intent/command-phrasing-catalog-2026-09-11.md)** — 55-intent phrasing catalogs, dataset audits, and STT vocabulary bias.
 - **[live-mode/](research/live-mode/live-mode-feasibility-2026-09-11.md)** — Low-latency continuous voice streaming and live dictation.
 - **[mcp-connection/](research/mcp-connection/README.md)** — 9-part research series on MCP bridges, OAuth 2.1, and QR session rotation.
 - **[system-architecture/](research/system-architecture/05-enterprise-patterns-research.md)** — Enterprise patterns, UI animation root causes, and diagnostics.
+- **[linux-platform/](research/linux-platform/00-index.md)** — Linux computer control (AT-SPI, CDP, browser engines), coverage and guardrails, and the Pop!_OS rounds 1–7.
 
 ### 4. 🌐 [9Router Research](9router-research/README.md)
 *Free LLM aggregation, multi-user brain tiers, and Cloudflare Worker AI routing.*
@@ -110,6 +112,7 @@ If you are exploring the codebase or contributing a new feature, follow this rea
 - **[Data Foundation & Wake-Model Gates](testing/data-foundation-and-wake-model-gates.md)** — SHA-256 evaluation locks and model fingerprints.
 - **[Phases 1–9 Experiment Records](testing/README.md)** — Phased NLU accuracy recovery and OOS elimination experiments.
 - **[Wake Word Phases A–E](testing/README.md)** — Audio preprocessing, SpecAugment, speaker verification, and training decisions.
+- **[Linux Port Verification & Stage Preview Harness](testing/linux-port-verification-and-preview-harness.md)** — Suites, live desktop checks, mic diagnosis, and `stage.html?eyeball`.
 
 ### 9. 🛡️ [Meeting Protection](meeting-protection/README.md)
 - **[01. Meeting Detection & Audio Privacy](meeting-protection/01-meeting-detection.md)** — 4-layer WASAPI session probe, mic scanning, and zero-interruption suppression.
