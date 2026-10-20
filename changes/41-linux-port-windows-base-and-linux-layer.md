@@ -44,6 +44,12 @@ The coordinator (Claude) split the port into jobs, ran each in its own git workt
 
 Live on the target: `[GDK] Wayland session on COSMIC (layer-shell supported)`, `stage overlay running on LayerShell`, `free area 1920x1048 of 1920x1080 — top: 32`, `audio: device 'default' accepted`, `capture started in 2.2s`; drawer asked 400×1008 → got 400×1008; X11 fallback input shape empty when idle, only the orb when shown; aura in all four states through the preview harness. Suites: see [`../testing/linux-port-verification-and-preview-harness.md`](../testing/linux-port-verification-and-preview-harness.md).
 
+### CI on the PR (Engine-NEXUS/linux#2)
+
+Windows CI on the PR: `rust-check-windows` passes (cargo check default / mock-wake / shipped features, dead-code ratchet, 1683 lib tests + integration tests); `worker-check` passes. Three jobs fail identically on `WINDOWS` main and belong to their owners: the IPC contract gate (unwired `agent_watch_*`, `get_return_review`, one-sided events), the NLU Data Foundation check (`d61c517` changed the locked dataset without a reviewed re-freeze), and the NSIS template (`RestartManager_StartSession` macro missing) — the Windows release build itself compiles.
+
+Found and fixed by running Windows CI: J5's pointer commands were registered on Windows (Linux-gated now); the history merge had dropped 18 shared server files (`server/sidecar`, `server/n8n`, Docker files — restored); `rust-check-windows` never compiled anything because `frontend/dist` did not exist (placeholder step); the dead-code ratchet (`worker_proxy` crate-private, baseline shrunk by 156); four OAuth tests that raced the async PKCE hash; dompurify 3.4.14 → 3.4.16.
+
 ## 5. Security notes
 
 - No secret is in the branch (scanned for Groq/OpenAI/Google/GitHub/Slack/AWS key patterns and private keys before the push). The user's Groq key lives only in the OS keyring (`com.nexus.assistant` / `nexus-apikey-groq`).
