@@ -15,7 +15,8 @@ docs/research/
 ├── mcp-connection/          # Model Context Protocol bridges (WhatsApp, Swiggy, Amazon, etc.)
 ├── system-architecture/     # Core system patterns, diagnostic reviews, and UI animations
 ├── screen-agent-stack/      # Screen agent vision models, TTS/STT/OCR/memory latency audit
-└── 2026-10-competitive-audit/  # 10-angle audit vs. the live state of the art (Oct 2026)
+├── 2026-10-competitive-audit/  # 10-angle audit vs. the live state of the art (Oct 2026)
+└── linux-platform/           # Linux computer control, browser engines, Pop!_OS rounds (see 00-index.md)
 ```
 
 ---

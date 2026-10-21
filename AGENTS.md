@@ -4,6 +4,27 @@
 - **`Engine-NEXUS/NEXUS-PAPERS`** (`https://github.com/Engine-NEXUS/NEXUS-PAPERS`): Dedicated repository for all scientific research papers, acoustic DSP investigations, NLU data science studies, and architecture compendiums.
 - **`Engine-NEXUS/WINDOWS`** (`https://github.com/Engine-NEXUS/WINDOWS`): Main application repository. All documentation (`docs/`), feature guides, and implementation code must always be pushed and synchronized in lockstep with this repo.
 
+## NEXUS on Linux — Windows Codebase + Linux Platform Layer (2026-10-20 → 2026-10-21)
+
+- **Strategy**: branch `port/windows-base` of `Engine-NEXUS/linux` starts at `windows/main`, merges `linux/main`
+  history (Windows wins conflicts), then re-applies the Linux layer as reviewed jobs T1–T8 and J1–J8. Windows/macOS
+  behaviour is unchanged (Linux code is `cfg(target_os = "linux")` or Linux-only modules).
+- **OS-native overlay**: with `libgtk-layer-shell0` on a layer-shell desktop (COSMIC, KDE, Hyprland, Sway…), the stage
+  is a layer-shell surface (keyboard NONE, input region = the orb) that measures the panels and keeps the orb below
+  them; the sidebar is a layer-shell drawer (keyboard on demand). Fallback: X11 window built `.focusable(false)`.
+- **Microphone root cause**: cpal 0.15's enumeration keeps every listed PCM open; holding PipeWire's own DMIC
+  (`hw:sofhdadsp,6`) stalled `default`/`pulse` capture in `snd_pcm_prepare`. Fix: probe by name, reopen one device at a
+  time; every probe behind a hard deadline.
+- **The aura**: orb style `aura` (Linux default) — the WebGL particle orb with no box, ringed by `@saystack/core@0.2.1`;
+  orb and aura read one level source; reduced motion calms rather than hides (Pop!_OS ships with animations off).
+- **Performance**: wake-word inference was 88–113 ms per 80 ms chunk unoptimised (119% idle CPU); inference crates now
+  optimised in dev (8.4 ms/chunk, 19% idle) and at `opt-level 3` in release (6–10% faster than `"s"`); a discarded
+  per-chunk VAD pass removed. A VAD gate before the embedding model is deferred until it can be recall-tested.
+- **Security**: the renderer reaches the Worker only through Rust's allowlisted `worker_request`; the Worker's
+  deny-by-default device gate is code only (not deployed).
+- **Docs**: `features/58-linux-port-windows-base-and-linux-layer.md`, `changes/41-linux-port-windows-base-and-linux-layer.md`,
+  `testing/linux-port-verification-and-preview-harness.md`, `research/linux-platform/`.
+
 ## Apex Wake Word Evolution, Data Poisoning Quarantine & Adaptive Microphone DSP (2026-09-22)
 
 - **Automated ASR Poisoning Quarantine (`audit_positive_samples.py`)**:

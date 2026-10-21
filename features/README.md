@@ -157,6 +157,7 @@ branches, forming the basis of PR #7 (merge of both branches into `main`).
 | 55 | NLU Data Foundation, STT Conditioning & Voice Scaling | [55-nlu-data-perfection-voice-scaling-and-mcp-bridge-research.md](55-nlu-data-perfection-voice-scaling-and-mcp-bridge-research.md) | STT Whisper prompt conditioning (`temperature=0.0`), decoupled acoustic vs NLU text pipeline, 70/30 data principle, and OTA model distribution |
 | 56 | Targeted Intent Training & MCP Data Promotion | [56-targeted-intent-training-and-mcp-data-promotion.md](56-targeted-intent-training-and-mcp-data-promotion.md) | Category-specific interactive voice collection (`nexus collect -c -i`), full 55-intent coverage, zero-quarantine promotion, and aligned intent mastery |
 | 57 | Apex Wake Word Evolution & Hardware Adaptation | [57-apex-wake-word-evolution-and-hardware-adaptation.md](57-apex-wake-word-evolution-and-hardware-adaptation.md) | Spectral microphone prober, chassis resonance auto-tuning (128.3 Hz HPF), dynamic AGC pre-gain, phantom trigger elimination, and multilingual negative augmentation |
+| 58 | NEXUS on Linux: Windows codebase + Linux layer | [58-linux-port-windows-base-and-linux-layer.md](58-linux-port-windows-base-and-linux-layer.md) | Layer-shell overlay below the panels, system-drawer sidebar, X11 fallback, PipeWire microphone root cause, the aura, wake-word performance |
 
 
 

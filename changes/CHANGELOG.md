@@ -5,6 +5,16 @@
 
 ---
 
+## NEXUS on Linux — Windows Codebase + Linux Platform Layer (2026-10-20 → 2026-10-21)
+
+| Commit | Date | Summary | Details |
+|--------|------|---------|---------|
+| — | 2026-10-20 | port: Windows codebase + Linux platform layer on `port/windows-base` (T1–T8: compile on Linux, AT-SPI/CDP control, voice/audio, app launch, input, GDK backend, packaging, WebKitGTK, OS-native overlay) | [41-linux-port-windows-base-and-linux-layer.md](./41-linux-port-windows-base-and-linux-layer.md) |
+| — | 2026-10-20 | fix(linux): mic probes behind hard deadlines; never hold the raw DMIC open (PipeWire capture stalled in `snd_pcm_prepare`) | [41-…](./41-linux-port-windows-base-and-linux-layer.md), [Feature 58 §4](../features/58-linux-port-windows-base-and-linux-layer.md) |
+| — | 2026-10-21 | feat(linux): layer-shell overlay below the panels, system-drawer sidebar, non-focusable fallback; the aura (orb style `aura`) | [Feature 58 §3, §5](../features/58-linux-port-windows-base-and-linux-layer.md) |
+| — | 2026-10-21 | perf(linux): wake-word inference 106 → 8.4 ms/chunk in dev (idle CPU 119% → 19%); inference crates `opt-level 3` in release; dead per-chunk VAD pass removed | [41-… §6](./41-linux-port-windows-base-and-linux-layer.md) |
+| — | 2026-10-21 | feat: J1–J8 — Worker device gate (not deployed), `worker_request` proxy, screen/voice commands, pointer marker, captions + last heard, preview harness | [41-… §2](./41-linux-port-windows-base-and-linux-layer.md) |
+
 ## Apex Wake Word Evolution — 560 Clean Samples Retrain (2026-09-23)
 
 | Commit | Date | Summary | Details |
