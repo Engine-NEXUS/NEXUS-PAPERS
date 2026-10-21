@@ -44,11 +44,18 @@ The coordinator (Claude) split the port into jobs, ran each in its own git workt
 
 Live on the target: `[GDK] Wayland session on COSMIC (layer-shell supported)`, `stage overlay running on LayerShell`, `free area 1920x1048 of 1920x1080 — top: 32`, `audio: device 'default' accepted`, `capture started in 2.2s`; drawer asked 400×1008 → got 400×1008; X11 fallback input shape empty when idle, only the orb when shown; aura in all four states through the preview harness. Suites: see [`../testing/linux-port-verification-and-preview-harness.md`](../testing/linux-port-verification-and-preview-harness.md).
 
-### CI on the PR (Engine-NEXUS/linux#2)
+### CI (Engine-NEXUS/linux#2)
 
-Windows CI on the PR: `rust-check-windows` passes (cargo check default / mock-wake / shipped features, dead-code ratchet, 1683 lib tests + integration tests); `worker-check` passes. Three jobs fail identically on `WINDOWS` main and belong to their owners: the IPC contract gate (unwired `agent_watch_*`, `get_return_review`, one-sided events), the NLU Data Foundation check (`d61c517` changed the locked dataset without a reviewed re-freeze), and the NSIS template (`RestartManager_StartSession` macro missing) — the Windows release build itself compiles.
+The port brought WINDOWS' workflows along, so the linux repository compiled its Rust only on `windows-latest`. It now runs the Linux counterpart of each Windows job: `rust-check-linux` on ubuntu-24.04 (the same cargo checks, dead-code ratchet and lib + integration tests) replaces `rust-check-windows`, and `build-linux.yml` replaces `build-windows.yml` and `windows-installer`: every push and PR builds the `.deb` through `scripts/build-prod.sh` (as `release.yml` does), installs it with apt on a clean runner, and checks its libraries and model resources. `frontend-check`, `worker-check` and `python-check` are platform-neutral and stay.
 
-Found and fixed by running Windows CI: J5's pointer commands were registered on Windows (Linux-gated now); the history merge had dropped 18 shared server files (`server/sidecar`, `server/n8n`, Docker files — restored); `rust-check-windows` never compiled anything because `frontend/dist` did not exist (placeholder step); the dead-code ratchet (`worker_proxy` crate-private, baseline shrunk by 156); four OAuth tests that raced the async PKCE hash; dompurify 3.4.14 → 3.4.16.
+Getting correct code to pass needed fixes, not baselines alone:
+
+- **The dead-code ratchet ran blind in CI on both OSes.** `dtolnay/rust-toolchain` sets `CARGO_TERM_COLOR=always`, and ANSI codes made every warning unparseable, so CI saw zero findings. The earlier "baseline shrunk by 156" on the Windows run was this blindness; that baseline is restored. Fixed with `--color=never`; Linux has its own baseline (316 findings, mostly shared code whose only callers are Windows-only).
+- **IPC gate:** its hard failure came from `return_review.rs`, a file no `mod` line declares — feature 139 (return review, agent task journal) lost its wiring and frontend card when WINDOWS main was squashed. The gate now scans only compiled files and keeps unreached files in a shrink-only baseline, so a lost `mod` line fails CI.
+- **NLU Data Foundation:** 15 train rows from one live-log import (`slots: null` or an `action` slot) leaked into the frozen evaluation splits and carried non-label intents (`OpenArchitect`, `Unknown { raw: … }`). They were removed from train only, and train was re-locked. Validation, calibration and test are unchanged.
+- **Packaging:** the first `build-linux.yml` run found that `build-prod.sh`/`build.sh`/`dev.sh` started tauri from `src-tauri/`, where the Windows-base `beforeBuildCommand` cannot run, so `release.yml` would have shipped nothing. They now run from the repo root.
+
+Found and fixed earlier by running the Windows jobs, before the switch: J5's pointer commands were registered on Windows (Linux-gated now); the history merge had dropped 18 shared server files (`server/sidecar`, `server/n8n`, Docker files — restored); `frontend/dist` did not exist for `generate_context!` (placeholder step); four OAuth tests that raced the async PKCE hash; dompurify 3.4.14 → 3.4.16.
 
 ## 5. Security notes
 

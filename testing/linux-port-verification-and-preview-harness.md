@@ -7,9 +7,12 @@ How the Linux build of NEXUS was verified (October 2026) and how to repeat it on
 | Suite | Command | Result |
 |---|---|---|
 | Rust library | `cd src-tauri && cargo test --lib` | 1930 / 1931 pass. The one failure, `turn_detect::tests::model_loads_and_runs`, is the model's `< 1500 ms` speed assertion in an unoptimised debug build on a loaded machine; it predates the port and the model output check passes |
-| Frontend | `cd frontend && npx tsc --noEmit && npx vitest run` | tsc clean; 455 / 455 |
+| Frontend | `cd frontend && npx tsc --noEmit && npx vitest run` | tsc clean; 477 / 477 |
 | Worker | `cd worker && npx vitest run` | 188 / 188 (J1) |
 | Production frontend build | `npx vite build`, then `grep -rlE 'eyeball\|EyeballPanel' dist/` | builds; the grep prints nothing (the preview harness is not shipped) |
+| NLU data | `python server/nlu/data_foundation.py validate`; `python scripts/foundation_validation_test.py`; `python scripts/evaluation_split_test.py` | validation passes; 4 / 4; 5 / 5 |
+| Linux CI (`ci.yml` on ubuntu-24.04) | every push and PR | `rust-check-linux`: three `cargo check` feature sets, dead-code ratchet (316 known, none new), 1937 lib tests + integration tests; `frontend-check` incl. the IPC contract gate; `worker-check`; `python-check` incl. the NLU Data Foundation — all pass |
+| Linux package (`build-linux.yml`) | every push and PR | `NEXUS_0.1.0_amd64.deb` (84 MB) built through `scripts/build-prod.sh`, installed with apt on a clean runner; `/usr/bin/nexus` has no unresolved library; the model resources are in the package |
 
 Known flakes, not port regressions: the live AT-SPI test (~1 in 10 on the base too), the `ghost` timing test (another team's module), `lazy_*` env tests when run with other suites in parallel.
 
