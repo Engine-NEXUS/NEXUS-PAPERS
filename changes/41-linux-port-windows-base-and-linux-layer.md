@@ -57,6 +57,10 @@ Getting correct code to pass needed fixes, not baselines alone:
 
 Found and fixed earlier by running the Windows jobs, before the switch: J5's pointer commands were registered on Windows (Linux-gated now); the history merge had dropped 18 shared server files (`server/sidecar`, `server/n8n`, Docker files — restored); `frontend/dist` did not exist for `generate_context!` (placeholder step); four OAuth tests that raced the async PKCE hash; dompurify 3.4.14 → 3.4.16.
 
+### Dead code and dead weight (Engine-NEXUS/linux#4)
+
+User request: *"if there is any dead code or dead weight? if yes get rid of it"*. Only code dead on every platform went: 25 Rust items with no use in any `#[cfg]` branch, test, dev tool or frontend `invoke` (found from rustc's dead-code findings, two rounds; 24 were also on the Windows baseline), four `screen:tour_phase` emits whose only listener was never started, and the two uncompiled feature-139 files. Frontend: a retired stub, a test-only legacy geometry module, the never-started screen-tour orb module, and two retired Lottie files that every build shipped. Kept: struct fields (serialized JSON), the Ghost files, code dead only because its callers are Windows-only (~290 Linux findings), and hand-opened design tools. Full list: the Linux repo's `docs/changes/linux-port-dead-weight-cleanup.md`. The `review-*` worktrees used to review the port jobs were deleted; the `port-*` job worktrees were kept.
+
 ## 5. Security notes
 
 - No secret is in the branch (scanned for Groq/OpenAI/Google/GitHub/Slack/AWS key patterns and private keys before the push). The user's Groq key lives only in the OS keyring (`com.nexus.assistant` / `nexus-apikey-groq`).
